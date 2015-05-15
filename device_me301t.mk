@@ -28,10 +28,15 @@ PRODUCT_COPY_FILES += \
 
 # Wifi related files and packages
 PRODUCT_PACKAGES += \
+    libwpa_cliend \
     hostapd \
     dhcpcd.conf \
     wpa_supplicant \
     wpa_supplicant.conf
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
+    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf
 
 # Input device config files
 PRODUCT_COPY_FILES += \
@@ -54,6 +59,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
@@ -62,7 +68,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper
+    $(LOCAL_PATH)/asusdec/org.omnirom.asusdec.xml:system/etc/permissions/org.omnirom.asusdec.xml
 
 # Build characteristics setting 
 PRODUCT_CHARACTERISTICS := tablet
@@ -85,7 +91,7 @@ PRODUCT_PACKAGES += \
     blobpack_tfp \
     wifimacwriter
 
-# Propertys spacific for this device
+# Propertys specific for this device
 PRODUCT_PROPERTY_OVERRIDES := \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15 \
@@ -101,35 +107,30 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Propertys specific for this device
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.epad.model=ME301T \
-    ro.product.model=ME301T \
-    wifi.interface=wlan0 \
-    wifi.supplicant_scan_interval=15 \
-    tf.enable=y \
-    ro.opengles.version=131072 \
-    persist.sys.usb.config=mtp,adb
+    ro.product.model=ME301T
 
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
     camera2.portability.force_api=1
 
+# set SELinux property value
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.build.selinux=1
+
 # media files
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
-    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
+    device/asus/me301t/media_codecs.xml:system/etc/media_codecs.xml \
+    device/asus/me301t/media_profiles.xml:system/etc/media_profiles.xml \
+    device/asus/me301t/audio_policy.conf:system/etc/audio_policy.conf
 
 # gps config files
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/gpsconfig.xml:system/etc/gps/gpsconfig.xml \
-    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/configs/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
-    $(LOCAL_PATH)/configs/dbus.conf:system/etc/dbus.conf
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+    device/asus/me301t/gpsconfig.xml:system/etc/gps/gpsconfig.xml \
+    device/asus/me301t/gps.conf:system/etc/gps.conf \
+    device/asus/me301t/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf \
+    device/asus/me301t/get-gps-lto:system/bin/get-gps-lto
 
 # Inherit tablet dalvik settings
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)

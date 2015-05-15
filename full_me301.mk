@@ -26,5 +26,5 @@ PRODUCT_BRAND := Asus
 PRODUCT_MODEL := ME301T
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, device/asus/tf300t/device_me301t.mk)
+$(call inherit-product, device/asus/me301t/device_me301t.mk)
 # This is where we'd set a backup provider if we had one

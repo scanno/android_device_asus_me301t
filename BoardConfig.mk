@@ -19,9 +19,6 @@ USE_CAMERA_STUB := false
 BOARD_HAVE_PRE_KITKAT_AUDIO_BLOB := true
 TARGET_OTA_ASSERT_DEVICE := me301t,tf300t
 
-# Camera options
-COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
-
 # inherit from the proprietary version
 -include vendor/asus/me301t/BoardConfigVendor.mk
 
@@ -49,19 +46,19 @@ BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE :=
 
-# Video settings
-BOARD_EGL_CFG := device/asus/me301t/configs/egl.cfg
+# EGL settings
+BOARD_EGL_CFG := device/asus/me301t/egl.cfg
 USE_OPENGL_RENDERER := true
 BOARD_HAVE_PIXEL_FORMAT_INFO := true
+
+# Misc display settings
+BOARD_USE_SKIA_LCDTEXT := true
+BOARD_NO_ALLOW_DEQUEUE_CURRENT_BUFFER := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 BOARD_USES_LEGACY_SET_POSITION := true
 
 # Acquire signature for WVM
 BOARD_USES_LEGACY_ACQUIRE_WVM := true
-
-# Misc display settings
-BOARD_USE_SKIA_LCDTEXT := true
-BOARD_NO_ALLOW_DEQUEUE_CURRENT_BUFFER := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -85,6 +82,7 @@ BOARD_WLAN_DEVICE           := bcmdhd
 WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd_34/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA     := "/system/vendor/firmware/bcm4334/fw_bcmdhd.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/firmware/bcm4334/fw_bcmdhd_apsta.bin"
+WIFI_DRIVER_FW_PATH_P2P     := "/system/vendor/firmware/bcm4334/fw_bcmdhd_p2p.bin"
 
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
@@ -95,7 +93,7 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 # TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
 
 # Try to build the kernel
-TARGET_KERNEL_SOURCE := kernel/asus/me301t
+TARGET_KERNEL_SOURCE := kernel/asus/tf300t
 TARGET_KERNEL_CONFIG := omni_me301t_defconfig
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
 
@@ -105,35 +103,43 @@ TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
 # Allow overriding partition for boot image
 TARGET_RELEASETOOL_OTA_FROM_TARGET_ADDITIONAL_ARGS := --override_boot_partition=/staging
 
-# SELinux policies
+# SELINUX Defines
 BOARD_SEPOLICY_DIRS := \
     device/asus/me301t/sepolicy
 
-BOARD_SEPOLICY_UNION := \
+BOARD_SEPOLICY_UNION += \
     file_contexts \
+    property_contexts \
+    service_contexts \
     genfs_contexts \
-    app.te \
-    btmacreader.te \
+    bluetooth.te \
     device.te \
+    domain.te \
     drmserver.te \
-    init_shell.te \
     file.te \
+    gpsd.te \
+    init.te \
+    init_shell.te \
+    keystore.te \
+    lmkd.te \
+    mediaserver.te \
+    property.te \
     rild.te \
     sensors_config.te \
     surfaceflinger.te \
-    system.te \
-    zygote.te
+    system_app.te \
+    system_server.te \
+    ueventd.te \
+    vold.te
 
 MALLOC_IMPL := dlmalloc
 
-# CMHW
 BOARD_HARDWARE_CLASS := device/asus/me301t/cmhw/
 
 # Recovery Options
 BOARD_CUSTOM_BOOTIMG_MK := device/asus/me301t/recovery/recovery.mk
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
-# TARGET_RECOVERY_INITRC := device/asus/me301t/recovery/init.rc
 BOARD_HAS_SDCARD_INTERNAL := true
 TARGET_RECOVERY_FSTAB := device/asus/me301t/ramdisk/fstab.cardhu
 TARGET_USERIMAGES_USE_F2FS := true

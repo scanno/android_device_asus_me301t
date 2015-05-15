@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2013 The CyanogenMod Project
+<!-- Copyright (C) 2011 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,6 +13,10 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <integer name="kp_notification_timeout">3000</integer>
+
+<resources>
+    <!-- No powercontrol widget for tablets -->
+    <bool name="has_powercontrol_widget">false</bool>
+
+    <bool name="has_advanced_settings">true</bool>
 </resources>
